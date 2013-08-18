@@ -123,10 +123,15 @@ int blacklist_init_from_files(char *whitelist_filename, char *blacklist_filename
 	}
 	constraint_optimize(constraint);
 	uint64_t allowed = blacklist_count_allowed();
+<<<<<<< HEAD
 	#if UINTPTR_MAX == 0xffffffff
 		log_debug("blacklist", "%lu addresses allowed to be scanned (%0.0f%% of address space)", allowed, allowed*100./(1LL << 32));
 	#elif UINTPTR_MAX == 0xffffffffffffffff
 		log_debug("blacklist", "%lu addresses allowed to be scanned (%0.0f%% of address space)", allowed, allowed*100./(1L << 32));
 	#endif
+=======
+	log_debug("blacklist", "%lu addresses allowed to be scanned (%0.0f%% of address space)", 
+			  allowed, allowed*100./((long long int)1 << 32));
+>>>>>>> upstream/master
 	return 0;
 }

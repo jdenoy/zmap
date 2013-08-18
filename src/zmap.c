@@ -81,7 +81,7 @@ static void *start_mon(__attribute__((unused)) void *arg)
 #define SI(w,x,y) printf("%s\t%s\t%i\n", w, x, y);
 #define SD(w,x,y) printf("%s\t%s\t%f\n", w, x, y);
 #define SU(w,x,y) printf("%s\t%s\t%u\n", w, x, y);
-#define SLU(w,x,y) printf("%s\t%s\t%lu\n", w, x, y);
+#define SLU(w,x,y) printf("%s\t%s\t%lu\n", w, x, (long unsigned int)y);
 #define SS(w,x,y) printf("%s\t%s\t%s\n", w, x, y);
 #define STRTIME_LEN 1024
 
@@ -363,7 +363,7 @@ int main(int argc, char *argv[])
 	zconf.output_module = get_output_module_by_name(args.output_module_arg);
 	if (!zconf.output_module) {
 	  fprintf(stderr, "%s: specified output module (%s) does not exist\n",
-		  args.output_module_arg, CMDLINE_PARSER_PACKAGE);
+		  CMDLINE_PARSER_PACKAGE, args.output_module_arg);
 	  exit(EXIT_FAILURE);
 	}
 	zconf.probe_module = get_probe_module_by_name(args.probe_module_arg);
@@ -462,12 +462,16 @@ int main(int argc, char *argv[])
 		}
 		if (end[0] == '%' && end[1] == '\0') {
 			// treat as percentage
+<<<<<<< HEAD
 	#if UINTPTR_MAX == 0xffffffff
 		v = v * (1LL << 32) / 100.;
 	#elif UINTPTR_MAX == 0xffffffffffffffff
 		v = v * (1L << 32) / 100.;
 	#endif
 
+=======
+			v = v * ((unsigned long long int)1 << 32) / 100.;
+>>>>>>> upstream/master
 		} else if (end[0] != '\0') {
 			fprintf(stderr, "%s: extra characters after max-targets\n",
 				  CMDLINE_PARSER_PACKAGE);
@@ -476,11 +480,15 @@ int main(int argc, char *argv[])
 		if (v <= 0) {
 			zconf.max_targets = 0;
 		}
+<<<<<<< HEAD
 	#if UINTPTR_MAX == 0xffffffff
 		else if (v >= (1LL << 32)) {
 	#elif UINTPTR_MAX == 0xffffffffffffffff
 		else if (v >= (1L << 32)) {
 	#endif	
+=======
+		else if (v >= ((unsigned long long int)1 << 32)) {
+>>>>>>> upstream/master
 			zconf.max_targets = 0xFFFFFFFF;
 		} else {
 			zconf.max_targets = v;
